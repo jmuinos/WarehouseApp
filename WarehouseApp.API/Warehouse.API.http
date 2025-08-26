@@ -1,0 +1,189 @@
+@dev = dev
+
+### ========================================
+### HEALTH AND STATUS ENDPOINTS
+### ========================================
+
+# Check if the API is running
+GET {{Warehouse_API_HostAddress}}/
+Accept: application/json
+
+###
+
+# Health check endpoint
+GET {{Warehouse_API_HostAddress}}/health
+Accept: application/json
+
+###
+
+# Get detailed API status
+GET {{Warehouse_API_HostAddress}}/api/status
+Accept: application/json
+
+###
+
+### ========================================
+### COMPANY ENDPOINTS (CRUD)
+### ========================================
+
+# Get all companies
+GET {{Warehouse_API_HostAddress}}/api/companies
+Accept: application/json
+
+###
+
+# Get active companies only
+GET {{Warehouse_API_HostAddress}}/api/companies/active
+Accept: application/json
+
+###
+
+# Get a specific company by ID
+# Replace {company-id} with a valid ID (example: 123e4567-e89b-12d3-a456-426614174000)
+GET {{Warehouse_API_HostAddress}}/api/companies/{company-id}
+Accept: application/json
+
+###
+
+# Create a new company
+POST {{Warehouse_API_HostAddress}}/api/companies
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Sample Company Inc.",
+  "address": "123 Main Street, Sample City",
+  "description": "A sample company for testing purposes"
+}
+
+###
+
+# Create another company (without description)
+POST {{Warehouse_API_HostAddress}}/api/companies
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Test Company Ltd.",
+  "address": "456 Central Avenue, Test Town"
+}
+
+###
+
+# Update an existing company
+# Replace {company-id} with a valid ID
+PUT {{Warehouse_API_HostAddress}}/api/companies/{company-id}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Updated Sample Company Inc.",
+  "address": "789 New Address, Updated City",
+  "description": "Updated company description",
+  "isActive": true
+}
+
+###
+
+# Deactivate a company
+PUT {{Warehouse_API_HostAddress}}/api/companies/{company-id}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Deactivated Company",
+  "address": "Current Address",
+  "description": "Company that has been deactivated",
+  "isActive": false
+}
+
+###
+
+# Delete a company
+# Replace {company-id} with a valid ID
+DELETE {{Warehouse_API_HostAddress}}/api/companies/{company-id}
+Accept: application/json
+
+###
+
+### ========================================
+### COMPLETE WORKFLOW EXAMPLES
+### ========================================
+
+# 1. Create a new company
+# @name createCompany
+POST {{Warehouse_API_HostAddress}}/api/companies
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "New Development Company",
+  "address": "321 Tech Zone, Digital City",
+  "description": "Company specialized in software development"
+}
+
+###
+
+# 2. Get the created company ID (use response from previous step)
+# @name getCompanyById
+GET {{Warehouse_API_HostAddress}}/api/companies/{{createCompany.response.body.id}}
+Accept: application/json
+
+###
+
+# 3. Update the created company
+PUT {{Warehouse_API_HostAddress}}/api/companies/{{createCompany.response.body.id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Updated Development Company",
+  "address": "654 New Tech Zone, Digital City Plus",
+  "description": "Leading company in software development and consulting",
+  "isActive": true
+}
+
+###
+
+# 4. Verify the update was successful
+GET {{Warehouse_API_HostAddress}}/api/companies/{{createCompany.response.body.id}}
+Accept: application/json
+
+###
+
+### ========================================
+### ERROR TESTING EXAMPLES
+### ========================================
+
+# Try to create a company with invalid data (empty name)
+POST {{Warehouse_API_HostAddress}}/api/companies
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "",
+  "address": "Valid address",
+  "description": "Valid description"
+}
+
+###
+
+# Try to get a company with invalid ID
+GET {{Warehouse_API_HostAddress}}/api/companies/00000000-0000-0000-0000-000000000000
+Accept: application/json
+
+###
+
+# Try to update a non-existent company
+PUT {{Warehouse_API_HostAddress}}/api/companies/00000000-0000-0000-0000-000000000000
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Non-existent Company",
+  "address": "Address",
+  "description": "Description",
+  "isActive": true
+}
+
+###
