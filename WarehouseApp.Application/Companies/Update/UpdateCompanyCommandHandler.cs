@@ -2,7 +2,6 @@
 using WarehouseApp.Application.Abstractions.Data;
 using WarehouseApp.Domain.Companies;
 using WarehouseApp.SharedKernel.Core.Errors;
-using WarehouseApp.SharedKernel.Core.Primitives;
 using WarehouseApp.SharedKernel.Core.Primitives.Maybe;
 using WarehouseApp.SharedKernel.Core.Primitives.Results;
 
@@ -22,9 +21,13 @@ public sealed class UpdateCompanyCommandHandler(IApplicationDbContext dbContext,
                          company.Update(request.Name, request.Address, request.Description);
 
                          if (request.IsActive)
+                         {
                              company.Activate();
+                         }
                          else
+                         {
                              company.Deactivate();
+                         }
                      })
                      .TapAsync(async _ => await unitOfWork.SaveChangesAsync(cancellationToken))
                      .Match(_ => Result.Success(), Result.Failure);

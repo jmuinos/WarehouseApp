@@ -64,13 +64,21 @@ public static class MaybeExtensions
     
     public static Maybe<T> Tap<T>(this Maybe<T> maybe, Action<T> action)
     {
-        if (maybe.HasValue) action(maybe.Value);
+        if (maybe.HasValue)
+        {
+            action(maybe.Value);
+        }
+
         return maybe;
     }
 
     public static Maybe<T> TapNone<T>(this Maybe<T> maybe, Action action)
     {
-        if (maybe.HasNoValue) action();
+        if (maybe.HasNoValue)
+        {
+            action();
+        }
+
         return maybe;
     }
     

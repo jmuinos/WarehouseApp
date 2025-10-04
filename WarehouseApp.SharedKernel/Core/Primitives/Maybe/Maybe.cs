@@ -36,9 +36,20 @@ public sealed class Maybe<T> : IEquatable<Maybe<T>>
     /// <inheritdoc />
     public bool Equals(Maybe<T>? other)
     {
-        if (other is null) return false;
-        if (HasNoValue && other.HasNoValue) return true;
-        if (HasNoValue || other.HasNoValue) return false;
+        if (other is null)
+        {
+            return false;
+        }
+
+        if (HasNoValue && other.HasNoValue)
+        {
+            return true;
+        }
+
+        if (HasNoValue || other.HasNoValue)
+        {
+            return false;
+        }
 
         return Value!.Equals(other.Value);
     }

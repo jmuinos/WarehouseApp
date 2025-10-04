@@ -11,7 +11,6 @@ using WarehouseApp.Application.Companies.GetAll;
 using WarehouseApp.Application.Companies.GetById;
 using WarehouseApp.Application.Companies.GetActive;
 using WarehouseApp.SharedKernel.Core.Primitives.Results;
-using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 
